@@ -1,9 +1,10 @@
 FROM amazonlinux
 
-# Install AWS CLI, yum-utils, shadow-utils, git, Docker, Packer, and Terraform
+# Install AWS CLI, yum-utils, shadow-utils, git, Docker, Packer, Terraform, Maven, and MySQL
 RUN yum install -y aws-cli yum-utils shadow-utils git docker \
     && yum-config-manager --add-repo https://rpm.releases.hashicorp.com/AmazonLinux/hashicorp.repo \
     && yum install -y packer terraform \
+    && yum install -y maven mysql \
     && systemctl enable docker \
     && systemctl start docker
 
