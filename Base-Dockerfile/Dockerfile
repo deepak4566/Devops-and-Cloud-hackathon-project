@@ -4,7 +4,7 @@ FROM amazonlinux
 RUN yum install -y aws-cli yum-utils shadow-utils git docker \
     && yum-config-manager --add-repo https://rpm.releases.hashicorp.com/AmazonLinux/hashicorp.repo \
     && yum install -y packer terraform \
-    && yum install -y maven mysql \
+    && yum install -y maven \
     && systemctl enable docker \
     && systemctl start docker
 
