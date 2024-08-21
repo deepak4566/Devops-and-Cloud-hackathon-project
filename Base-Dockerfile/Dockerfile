@@ -1,29 +1,33 @@
-FROM alpine:3.18
+FROM ubuntu:22.04
 
 # Set environment variables
+ENV MAVEN_VERSION=3.9.4
 ENV SONAR_SCANNER_VERSION=4.8.0.2856
+ENV JFROG_CLI_VERSION=2.47.0
+ENV TRIVY_VERSION=0.54.1
 
 # Install required packages
-RUN apk add --no-cache \
+RUN apt-get update && apt-get install -y \
     bash \
     curl \
-    openjdk11 \
+    openjdk-11-jdk \
     git \
-    docker \
+    docker.io \
     nodejs \
     npm \
+    unzip \
     ca-certificates \
     openssl \
-    && update-ca-certificates
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
 # Install Snyk
 RUN npm install -g snyk
 
 # Install Sonar Scanner
 RUN curl -fsSL https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-${SONAR_SCANNER_VERSION}-linux.zip -o sonar-scanner.zip \
-    && mkdir -p /opt/sonar-scanner \
-    && unzip sonar-scanner.zip -d /opt/sonar-scanner/ \
-    && ln -s /opt/sonar-scanner/sonar-scanner-${SONAR_SCANNER_VERSION}-linux/bin/sonar-scanner /usr/local/bin/sonar-scanner \
+    && unzip sonar-scanner.zip -d /opt \
+    && ln -s /opt/sonar-scanner-${SONAR_SCANNER_VERSION}-linux/bin/sonar-scanner /usr/local/bin/sonar-scanner \
     && rm sonar-scanner.zip
 
 # Install Trivy
