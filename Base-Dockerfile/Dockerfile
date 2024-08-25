@@ -1,3 +1,4 @@
+# Use Ubuntu as the base image
 FROM ubuntu:22.04
 
 # Set environment variables
@@ -26,6 +27,8 @@ RUN npm install -g snyk
 
 # Install Sonar Scanner
 RUN curl -fsSL https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-${SONAR_SCANNER_VERSION}-linux.zip -o sonar-scanner.zip \
+
+
     && unzip sonar-scanner.zip -d /opt \
     && ln -s /opt/sonar-scanner-${SONAR_SCANNER_VERSION}-linux/bin/sonar-scanner /usr/local/bin/sonar-scanner \
     && rm sonar-scanner.zip
@@ -42,3 +45,4 @@ RUN sonar-scanner --version && snyk --version && trivy --version
 
 # Set the entrypoint to bash
 ENTRYPOINT ["/bin/bash"]
+
